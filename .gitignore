@@ -1,0 +1,13 @@
+
+#Unity Compiled
+Packages/
+Library/
+Temp/
+obj/
+bin/
+Assets/Packages/
+Assets/Packages.meta
+Assets/Resources/
+Assets/Resources.meta
+Assets/Gizmos/
+Assets/Gizmos.meta
