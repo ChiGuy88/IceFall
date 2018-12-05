@@ -2,9 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using CRYSTAL;
-using UnityEngine;
 using UnityEngine.SceneManagement;
-using DG.Tweening;
 
 namespace IceFalls {
 
@@ -13,7 +11,7 @@ namespace IceFalls {
         public void CLICK_StartGame(GameObject target) {
 
             CONSOLE.Log("START GAME");
-            SceneManager.LoadScene("Freeplay");
+            SceneManager.LoadScene("2DIceFalls");
         }
     }
 }

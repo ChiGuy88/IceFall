@@ -3,7 +3,12 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - CaveDungeonHide
+  - IceCollider
+  - Icicle
+  - IceBlock
+  - IcicleSpawner
   layers:
   - Default
   - TransparentFX
@@ -29,14 +34,14 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
-  - 
+  - IceBlock
+  - Player
+  - Icicles
   - 
   - 
   - 
   - ForeGround
-  - 
+  - HUD
   m_SortingLayers:
   - name: Default
     uniqueID: 0
@@ -46,6 +51,9 @@ TagManager:
     locked: 0
   - name: MiddleGround
     uniqueID: 1507004677
+    locked: 0
+  - name: Player
+    uniqueID: 370738207
     locked: 0
   - name: ForeGround
     uniqueID: 2470460505
