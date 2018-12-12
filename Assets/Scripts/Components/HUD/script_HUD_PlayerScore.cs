@@ -12,7 +12,7 @@ namespace IceFalls {
             base.FixedStep();
 
             Text scoreText = this.FindObjectInChildrenByName("TEXT_Score").GetComponent<Text>();
-            scoreText.text = GameConfig.Instance.TotalScore.ToString();
+            scoreText.text = GamePlayerPrefs.Instance.TotalScore.ToString();
         }
     }
 }

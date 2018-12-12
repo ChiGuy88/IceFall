@@ -6,11 +6,17 @@ namespace IceFalls {
 
     public class script_IceBlock : CRYSTAL_Script {
 
+        // Public
+
+        public readonly string GUID = System.Guid.NewGuid().ToString();
+
         public GameObject ScoreTextPrefab;
 
         public int ScoreValue = 0;
 
         public float TweenIceBlockOutTime = 0.5f;
+
+        public Ease TweenIceBlockOutEase = Ease.OutBack;
 
         public float TweenScoreTextTime = 2f;
 
@@ -31,7 +37,7 @@ namespace IceFalls {
         private void CollideWithPlayer(GameObject _PlayerObj) {
 
             // Add to total score
-            GameConfig.Instance.AddToScore(this.ScoreValue);
+            GamePlayerPrefs.Instance.AddToScore(this.ScoreValue);
 
             // Display Score Points
             GameObject textClone = GO.Clone(this.ScoreTextPrefab, Vector3.zero);
@@ -44,17 +50,25 @@ namespace IceFalls {
             Destroy(this.GetComponent<Rigidbody2D>());
 
             // Scale the block to zero
-            this.transform.DOScale(0, this.TweenIceBlockOutTime);
+            this.transform.DOScale(0, this.TweenIceBlockOutTime)
+                .SetId(this.gameObject)
+                .SetEase(this.TweenIceBlockOutEase);
 
             // Rotate the block
-            this.transform.DORotate(new Vector3(0, 0, 720), this.TweenIceBlockOutTime, RotateMode.LocalAxisAdd);
+            this.transform.DORotate(new Vector3(0, 0, 720), this.TweenIceBlockOutTime, RotateMode.LocalAxisAdd)
+                .SetId(this.gameObject)
+                .SetEase(this.TweenIceBlockOutEase);
 
             // Play audio
             AudioSource audioSource = this.FindObjectInChildrenByName("CollectedAudio").GetComponent<AudioSource>();
             audioSource.Play();
 
             // Destroy this block
-            Destroy(this.gameObject, this.TweenIceBlockOutTime);
+            TimerSystem.CreateTimer("DestroyIceBlock_" + this.GUID, this.TweenIceBlockOutTime + 1)
+                .Watch(() => {
+                    DOTween.Kill(this.gameObject);
+                    Destroy(this.gameObject);
+                });
         }
     }
 }

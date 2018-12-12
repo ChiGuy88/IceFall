@@ -34,7 +34,7 @@ namespace IceFalls {
         public void PlayerHit() {
 
             // Lose Life
-            GameConfig.Instance.LoseLife();
+            GamePlayerPrefs.Instance.LoseLife();
 
             // Play hit animation
             this.p_Animator.Play("Rogue_Hit");

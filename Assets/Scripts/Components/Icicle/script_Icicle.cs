@@ -8,6 +8,10 @@ namespace IceFalls {
 
     public class script_Icicle : CRYSTAL_Script {
 
+        // Public
+
+        public readonly string GUID = System.Guid.NewGuid().ToString();
+
         // Collide (Player)
         public GameObject PlayerHitPrefab;
         public float Tween_PlayerHitTime = 1;
@@ -54,42 +58,50 @@ namespace IceFalls {
         }
 
         private void HitPlayer(GameObject _PlayerObject) {
-            CONSOLE.Log("Hit Player!");
 
             Destroy(GetComponent<BoxCollider2D>());
             Destroy(GetComponent<Rigidbody2D>());
 
             this.transform.DOMove(_PlayerObject.transform.position, Tween_PlayerHitTime)
+                .SetId(this.gameObject)
                 .SetEase(this.Tween_PlayerHitEase);
             this.transform.DOScale(Vector3.zero, Tween_PlayerHitTime)
+                .SetId(this.gameObject)
                 .SetEase(this.Tween_PlayerHitEase);
 
             if (this.PlayerHitPrefab != null) {
                 GameObject clone = GO.Clone(this.PlayerHitPrefab, Vector3.zero);
-                clone.transform.parent = null;
                 clone.transform.position = _PlayerObject.transform.position;
                 Destroy(clone, 2);
             }
-            
-            Destroy(this.gameObject, Tween_PlayerHitTime);
+
+            TimerSystem.CreateTimer("DestroyIcicle_" + this.GUID, this.Tween_PlayerHitTime)
+                .Watch(() => {
+                    DOTween.Kill(this.gameObject);
+                    Destroy(this.gameObject, 1);
+                });
         }
 
         private void SpawnIceBlock() {
-            CONSOLE.Log("Spawn Ice Block!");
 
             Destroy(GetComponent<BoxCollider2D>());
             Destroy(GetComponent<Rigidbody2D>());
 
             this.transform.DOScale(Vector3.zero, Tween_IceColliderHitTime)
+                .SetId(this.gameObject)
                 .SetEase(this.Tween_IceColliderHitEase);
 
             GameObject prefab = this.IceBlockPrefab();
             if (prefab != null) {
                 GameObject iceBlockClone = GO.Clone(prefab, this.transform.position);
-                iceBlockClone.transform.parent = GO.Find("IceBlocks").transform;
+                iceBlockClone.transform.parent = this.transform.parent;
             }
 
-            Destroy(this.gameObject, Tween_PlayerHitTime);
+            TimerSystem.CreateTimer("DestroyIcicle_" + this.GUID, this.Tween_PlayerHitTime)
+                .Watch(() => {
+                    DOTween.Kill(this.gameObject);
+                    Destroy(this.gameObject, 1);
+                });
         }
     }
 }

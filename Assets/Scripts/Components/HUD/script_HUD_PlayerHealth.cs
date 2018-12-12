@@ -21,7 +21,7 @@ namespace IceFalls {
         private Image p_Life4Image;
         private Image p_Life5Image;
 
-        private GameConfig p_GameConfig;
+        private GamePlayerPrefs p_GameConfig;
 
         public override void SetDefaultValues() {
             base.SetDefaultValues();
@@ -32,7 +32,7 @@ namespace IceFalls {
             this.p_Life4Image = Life4.GetComponent<Image>();
             this.p_Life5Image = Life5.GetComponent<Image>();
 
-            this.p_GameConfig = GameConfig.Instance;
+            this.p_GameConfig = GamePlayerPrefs.Instance;
 
             this.UpdateLifeIcons();
         }

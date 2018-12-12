@@ -17,8 +17,8 @@ namespace IceFalls {
         public override void Step() {
             base.Step();
 
-            if (this.transform.position.x >= OffscreenPaddingPixels) {
-                this.transform.position = new Vector3(-OffscreenPaddingPixels, this.transform.position.y, this.transform.position.z);
+            if (Mathf.Abs(this.transform.position.x) > OffscreenPaddingPixels) {
+                this.transform.position = new Vector3(Direction.x * -OffscreenPaddingPixels, this.transform.position.y, this.transform.position.z);
             }
             else {
                 this.transform.position += Direction * (MovementSpeed * Time.deltaTime);

@@ -32,18 +32,23 @@ namespace IceFalls {
         public override void SetDefaultValues() {
             base.SetDefaultValues();
 
-            // Update TextMeshPro script
-            this.TextMeshPro.SetText(this.DisplayText);
+            try {
+                // Update TextMeshPro script
+                this.TextMeshPro.SetText(this.DisplayText);
 
-            // Tween position to offset
-            RectTransform rectTransform = this.GetComponent<RectTransform>();
-            rectTransform.localPosition = Vector3.up * PositionOffsetY;
-            rectTransform.DOLocalMove(rectTransform.localPosition + (Vector3.up * this.TweenScoreUp_OffsetY), this.TweenScoreUp_Time)
-                .SetEase(this.TweenScoreUp_Ease);
+                // Tween position to offset
+                RectTransform rectTransform = this.GetComponent<RectTransform>();
+                rectTransform.localPosition = Vector3.up * PositionOffsetY;
+                rectTransform.DOLocalMove(rectTransform.localPosition + (Vector3.up * this.TweenScoreUp_OffsetY), this.TweenScoreUp_Time)
+                    .SetEase(this.TweenScoreUp_Ease);
 
-            // Tween alpha
-            Color endCOlor = new Color(this.TextMeshPro.color.r, this.TextMeshPro.color.g, this.TextMeshPro.color.b, 0);
-            this.TextMeshPro.DOColor(endCOlor, this.TweenScoreUp_Time);
+                // Tween alpha
+                Color endCOlor = new Color(this.TextMeshPro.color.r, this.TextMeshPro.color.g, this.TextMeshPro.color.b, 0);
+                this.TextMeshPro.DOColor(endCOlor, this.TweenScoreUp_Time);
+            }
+            catch {
+                CONSOLE.Warn("ScoreText: TextMeshPro script not found...");
+            }
 
             Destroy(this.gameObject, this.TweenScoreUp_Time);
         }

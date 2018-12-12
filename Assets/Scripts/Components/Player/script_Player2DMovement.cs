@@ -7,19 +7,23 @@ namespace IceFalls {
 
     public class script_Player2DMovement : CRYSTAL_Script {
 
+        // Static
+
+        public static script_Player2DMovement Instance {
+            get {
+                return GO.Find("Player").GetComponent<script_Player2DMovement>();
+            }
+        }
+
+        // Public
+
         public bool IsMovementEnabled = true;
 
         public float Force;
 
         public float PlayerRunVelocityXThreshold = 0.25f;
 
-        private Animator p_Animator;
-
-        public override void SetDefaultValues() {
-            base.SetDefaultValues();
-
-            this.p_Animator = this.GetComponentInChildren<Animator>();
-        }
+        // Public Methods
 
         public override void Step() {
             base.Step();
@@ -54,11 +58,19 @@ namespace IceFalls {
             // Update animator
             // ---------------
             float vel = Mathf.Abs(rigidbody.velocity.x);
-            this.p_Animator.SetBool("IsPlayerRunning", isPlayerRunning);
+            script_PlayerAnimation.Instance.Animator.SetBool("IsPlayerRunning", isPlayerRunning);
             
-            if (isPlayerRunning && !this.p_Animator.GetCurrentAnimatorStateInfo(0).IsName("Rogue_Run")) {
-                this.p_Animator.Play("Rogue_Run");
+            if (isPlayerRunning && !script_PlayerAnimation.Instance.Animator.GetCurrentAnimatorStateInfo(0).IsName("Rogue_Run")) {
+                script_PlayerAnimation.Instance.PlayRunAnimation();
             }
+        }
+
+        public void DisableMovement() {
+            this.IsMovementEnabled = false;
+        }
+
+        public void EnableMovement() {
+            this.IsMovementEnabled = true;
         }
     }
 }
