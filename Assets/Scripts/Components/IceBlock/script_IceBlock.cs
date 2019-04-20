@@ -10,7 +10,7 @@ namespace IceFalls {
 
         public readonly string GUID = System.Guid.NewGuid().ToString();
 
-        public GameObject ScoreTextPrefab;
+        public GameObject GemPrefab;
 
         public int ScoreValue = 0;
 
@@ -18,9 +18,7 @@ namespace IceFalls {
 
         public Ease TweenIceBlockOutEase = Ease.OutBack;
 
-        public float TweenScoreTextTime = 2f;
-
-        public Ease TweenScoreTextEase = Ease.OutBack;
+        // Properties
 
         private string ScoreText {
             get {
@@ -28,22 +26,9 @@ namespace IceFalls {
             }
         }
 
-        private void OnCollisionEnter2D(Collision2D collision) {
-            if (collision.gameObject.CompareTag("Player")) {
-                this.CollideWithPlayer(collision.gameObject);
-            }
-        }
-
-        private void CollideWithPlayer(GameObject _PlayerObj) {
-
-            // Add to total score
-            GamePlayerPrefs.Instance.AddToScore(this.ScoreValue);
-
-            // Display Score Points
-            GameObject textClone = GO.Clone(this.ScoreTextPrefab, Vector3.zero);
-            script_ScoreText scoreText = textClone.GetComponent<script_ScoreText>();
-            textClone.transform.parent = _PlayerObj.transform;
-            scoreText.DisplayText = this.ScoreText;
+        // Private Methods
+        
+        public void DestroyIceBlock() {
 
             // Destroy physics
             Destroy(this.GetComponent<BoxCollider2D>());
@@ -58,10 +43,6 @@ namespace IceFalls {
             this.transform.DORotate(new Vector3(0, 0, 720), this.TweenIceBlockOutTime, RotateMode.LocalAxisAdd)
                 .SetId(this.gameObject)
                 .SetEase(this.TweenIceBlockOutEase);
-
-            // Play audio
-            AudioSource audioSource = this.FindObjectInChildrenByName("CollectedAudio").GetComponent<AudioSource>();
-            audioSource.Play();
 
             // Destroy this block
             TimerSystem.CreateTimer("DestroyIceBlock_" + this.GUID, this.TweenIceBlockOutTime + 1)

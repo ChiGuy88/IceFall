@@ -8,8 +8,13 @@ namespace IceFalls {
 
     public class script_PlayerHealth : CRYSTAL_Script {
 
+        public static script_PlayerHealth Instance {
+            get {
+                return GO.Find("Player").GetComponent<script_PlayerHealth>();
+            }
+        }
+
         // Public
-        // ------
 
         public float PlayerDamageTweenTime = 1;
 
@@ -21,23 +26,16 @@ namespace IceFalls {
 
         public Color PlayerDamageTweenEndColor = Color.red;
 
-        // Private
-        // -------
-
-        private Animator p_Animator;
-
-        public override void SetDefaultValues() {
-            base.SetDefaultValues();
-            this.p_Animator = this.GetComponentInChildren<Animator>();
-        }
+        // Public Methods
 
         public void PlayerHit() {
 
             // Lose Life
-            GamePlayerPrefs.Instance.LoseLife();
+            GameConfig.Instance.LoseHealth();
 
             // Play hit animation
-            this.p_Animator.Play("Rogue_Hit");
+            Animator animator = this.GetComponentInChildren<Animator>();
+            animator.Play("Rogue_Hit");
 
             // Tween player color to indicate damage
             List<SpriteRenderer> spriteRenderers = new List<SpriteRenderer>(this.GetComponentsInChildren<SpriteRenderer>());

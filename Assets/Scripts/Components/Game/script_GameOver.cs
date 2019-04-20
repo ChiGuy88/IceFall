@@ -85,14 +85,11 @@ namespace IceFalls {
 
         private void DisplayGameOverScreen() {
 
-            // Persist the high score
-            GamePlayerPrefs.Instance.SaveGameConfig();
-
-            // Reset to new game state
-            GamePlayerPrefs.Instance.LoadGameConfig();
-
             // Display screen
             script_HUD_GameOverScreen.Instance.DisplayGameOverScreen();
+            
+            // Reset the game now that the screen is displayed
+            GameConfig.Instance.ResetGame();
         }
     }
 }

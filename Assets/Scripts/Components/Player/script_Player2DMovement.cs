@@ -28,15 +28,30 @@ namespace IceFalls {
         public override void Step() {
             base.Step();
 
-            if (!IsMovementEnabled) {
-                return;
+            // BAIL!
+            if (!IsMovementEnabled) { return; }
+
+            // Get Input based on platform
+            float horizontal = 0;
+            switch (Application.platform) {
+                case RuntimePlatform.IPhonePlayer:
+                case RuntimePlatform.Android:
+                    if (Input.touchCount > 0) {
+                        Touch t = Input.GetTouch(0);
+                        horizontal = t.position.x >= 0 ? 1 : -1;
+                    }
+                    break;
+                case RuntimePlatform.WebGLPlayer:
+                case RuntimePlatform.WindowsPlayer:
+                case RuntimePlatform.WindowsEditor:
+                default:
+                    horizontal = Input.GetAxis("Horizontal");
+                    break;
             }
 
             // Update Rigidbody from Input
-            // ---------------------------
             GameObject rogueObj = this.FindObjectInChildrenByName("Rogue");
             Rigidbody2D rigidbody = this.GetComponent<Rigidbody2D>();
-            float horizontal = Input.GetAxis("Horizontal");
             float directionalVelocity = 0;
             bool isPlayerRunning = false;
 

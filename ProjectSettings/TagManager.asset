@@ -10,6 +10,9 @@ TagManager:
   - IceBlock
   - IcicleSpawner
   - IcicleSpawnerControl
+  - DoNotDestroy
+  - Floor
+  - Bomb
   layers:
   - Default
   - TransparentFX
@@ -32,17 +35,17 @@ TagManager:
   - 
   - 
   - MiddleGround
-  - 
+  - Player
   - 
   - 
   - IceBlock
-  - Player
+  - 
   - Icicles
-  - 
-  - 
-  - 
+  - Bomb
   - ForeGround
+  - 
   - HUD
+  - MENU
   m_SortingLayers:
   - name: Default
     uniqueID: 0
