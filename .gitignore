@@ -1,13 +1,14 @@
 
 #Unity Compiled
-Packages/
 Library/
 Temp/
 obj/
 bin/
-Assets/Packages/
-Assets/Packages.meta
+Assets/fallingice-packages/
+Assets/fallingice-packages.meta
 Assets/Resources/
 Assets/Resources.meta
 Assets/Gizmos/
 Assets/Gizmos.meta
+Assets/Standard\ Assets/*
+Assets/Standard\ Assets.meta

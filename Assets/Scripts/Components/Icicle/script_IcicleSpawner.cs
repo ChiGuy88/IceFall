@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using CRYSTAL;
+using DG.Tweening;
 
 namespace IceFalls {
 
@@ -10,6 +11,10 @@ namespace IceFalls {
         // Public
 
         public GameObject Prefab;
+
+        public GameObject BombPrefab;
+
+        public string GUID { get; private set; }
 
         public int TotalIceBlocksToFormWall = 4;
 
@@ -31,6 +36,8 @@ namespace IceFalls {
 
         private float p_CurrentTimerTillNextSwitchUp = 0;
 
+        private bool p_FormWallAndSpawnBomb;
+
         // Properties
 
         public bool IsSpawnerEnabled { get; private set; }
@@ -46,6 +53,7 @@ namespace IceFalls {
         public override void SetDefaultValues() {
             base.SetDefaultValues();
 
+            this.GUID = System.Guid.NewGuid().ToString();
             this.IsSpawnerEnabled = true;
             this.p_TimeTillNextSpawn = this.TimeTillNextSpawn;
         }
@@ -68,12 +76,32 @@ namespace IceFalls {
             }
 
             // Update icicle spawn timer
-            if (this.TimeTillNextSpawn > 0 && this.transform.childCount < this.TotalIceBlocksToFormWall) {
+            if (this.TimeTillNextSpawn > 0) {
                 this.p_CurrentTimerTillNextSpawn += Time.deltaTime;
 
-                if (this.p_CurrentTimerTillNextSpawn >= this.p_TimeTillNextSpawn) {
-                    this.p_CurrentTimerTillNextSpawn = 0;
+                if (this.transform.childCount < this.TotalIceBlocksToFormWall &&
+                    this.p_CurrentTimerTillNextSpawn >= this.p_TimeTillNextSpawn
+                ) {
+                    this.p_CurrentTimerTillNextSpawn = Time.deltaTime;
                     this.SpawnIcicle();
+                }
+                else if (this.transform.childCount >= this.TotalIceBlocksToFormWall &&
+                    !this.p_FormWallAndSpawnBomb &&
+                    this.p_CurrentTimerTillNextSpawn >= this.p_TimeTillNextSpawn
+                ) {
+
+                    int totalIceBlocks = 0;
+                    int i, n = this.transform.childCount;
+                    for (i = 0; i < n; ++i) {
+                        if (this.transform.GetChild(i).CompareTag("IceBlock")) {
+                            totalIceBlocks++;
+                        }
+                    }
+
+                    if (totalIceBlocks == this.TotalIceBlocksToFormWall) {
+                        this.IsSpawnerEnabled = false;
+                        this.SpawnBomb();
+                    }
                 }
             }
         }
@@ -84,6 +112,10 @@ namespace IceFalls {
         
         public void EnableSpawner() {
             this.IsSpawnerEnabled = true;
+        }
+
+        public void ResetIceWall() {
+            this.p_FormWallAndSpawnBomb = false;
         }
 
         // Private Methods
@@ -108,6 +140,35 @@ namespace IceFalls {
             clone.transform.parent = this.transform;
             clone.transform.localPosition = Vector3.zero;
             clone = null;
+        }
+
+        private void SpawnBomb() {
+            this.p_FormWallAndSpawnBomb = true;
+
+            // Remove Colliders on all Ice Blocks
+            //Transform child;
+            //int i, n = this.transform.childCount;
+            //for (i = 0; i < n; ++i) {
+
+            //    child = this.transform.GetChild(i);
+
+            //    if (child.CompareTag("IceBlock")) {
+
+            //        CONSOLE.Log("Child:", child.name);
+
+            //        Destroy(child.GetComponent<Rigidbody2D>());
+
+            //        child = child.Find("PlayerTrigger2D");
+
+            //        Destroy(child.GetComponent<BoxCollider2D>());
+            //    }
+            //}
+
+            // Spawn Bomb
+            GameObject bombClone = GO.Clone(this.BombPrefab, Vector3.zero);
+            bombClone.transform.parent = this.transform;
+            bombClone.transform.localPosition = Vector3.zero;
+            bombClone = null;
         }
     }
 }

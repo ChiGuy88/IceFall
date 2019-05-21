@@ -18,26 +18,13 @@ namespace IceFalls {
 
         // Public Methods
 
-        public override void SetDefaultValues() {
-            base.SetDefaultValues();
-
-            // Load in config, if the override is true then overrite the saved values
-            //GameConfig loaded = FileSystem.LoadConfigFromFile<GameConfig>("Configs/GameConfig.json");
-            //CONSOLE.Log(loaded);
-        }
-
         public override void StartGame() {
             base.StartGame();
 
+            script_AudioManager.Instance.PlayBackgroundMusic("IceFallsBackgroundMusic");
+
             // Play the game intro
             script_GameIntro.Instance.PlayGameIntro();
-        }
-
-        public override void EndGame() {
-            base.EndGame();
-
-            // Play game over animation
-            script_GameOver.Instance.PlayGameOver();
         }
     }
 }

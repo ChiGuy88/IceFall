@@ -14,22 +14,17 @@ namespace IceFalls {
 
         public Rect EndRect = Rect.zero;
 
-        protected CRYSTAL_Rect2D script_Rect2D {
-            get {
-                return this.ParentObject.GetComponent<CRYSTAL_Rect2D>();
-            }
-        }
-
         override protected void _PlayTween() {
             base._PlayTween();
 
-            CRYSTAL_Rect2D script = this.script_Rect2D;
-            script.UpdatePositionRect(this.StartRect);
+            RectTransform rectTransform = this.ParentObject.GetComponent<RectTransform>();
 
             DOTween.To(
                 () => this.StartRect,
-                (Rect _updatedRect) => {
-                    script.UpdatePositionRect(_updatedRect);
+                (Rect value) => {
+                    if (rectTransform == null) return;
+                    rectTransform.localPosition = new Vector3(value.x, value.y);
+                    rectTransform.sizeDelta = new Vector2(value.width, value.height);
                 },
                 this.EndRect,
                 this.TweenTimeInSec

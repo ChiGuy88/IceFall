@@ -50,8 +50,8 @@ namespace IceFalls {
             }
 
             // Icicle hit ground/ice-block
-            if (collision.CompareTag("IceCollider") ||
-              collision.CompareTag("IceBlock")  
+            if (collision.CompareTag("IceBlock") ||
+                collision.CompareTag("Floor")
             ) {
                 this.SpawnIceBlock();
             }
@@ -65,6 +65,7 @@ namespace IceFalls {
             this.transform.DOMove(_PlayerObject.transform.position, Tween_PlayerHitTime)
                 .SetId(this.gameObject)
                 .SetEase(this.Tween_PlayerHitEase);
+
             this.transform.DOScale(Vector3.zero, Tween_PlayerHitTime)
                 .SetId(this.gameObject)
                 .SetEase(this.Tween_PlayerHitEase);
@@ -87,14 +88,14 @@ namespace IceFalls {
             Destroy(GetComponent<BoxCollider2D>());
             Destroy(GetComponent<Rigidbody2D>());
 
-            this.transform.DOScale(Vector3.zero, Tween_IceColliderHitTime)
-                .SetId(this.gameObject)
-                .SetEase(this.Tween_IceColliderHitEase);
+            this.transform.localScale = Vector3.zero;
 
             GameObject prefab = this.IceBlockPrefab();
             if (prefab != null) {
                 GameObject iceBlockClone = GO.Clone(prefab, this.transform.position);
                 iceBlockClone.transform.parent = this.transform.parent;
+                iceBlockClone.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+                iceBlockClone.transform.DOScale(new Vector3(0.25f, 0.25f, 0.25f), 0.25f);
             }
 
             TimerSystem.CreateTimer("DestroyIcicle_" + this.GUID, this.Tween_PlayerHitTime)

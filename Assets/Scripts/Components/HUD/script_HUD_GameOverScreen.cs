@@ -54,6 +54,8 @@ namespace IceFalls {
 
             this.p_MovedGoAgainButtonCount = 0;
 
+            this.GetComponent<CanvasGroup>().blocksRaycasts = true;
+
             CanvasGroup group = this.GetComponent<CanvasGroup>();
             DOTween.To(
                 () => group.alpha,
