@@ -1791,8 +1791,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -78.8}
-  m_SizeDelta: {x: 72.35, y: 788}
+  m_AnchoredPosition: {x: 0, y: -32.100002}
+  m_SizeDelta: {x: 28.5, y: 321}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &514018898
 MonoBehaviour:
@@ -3743,6 +3743,10 @@ PrefabInstance:
     - target: {fileID: 1826135069440742, guid: cd5fc23babe0a1a4ca2239f10347668b, type: 3}
       propertyPath: m_Name
       value: Sparks_large emiter
+      objectReference: {fileID: 0}
+    - target: {fileID: 1826135069440742, guid: cd5fc23babe0a1a4ca2239f10347668b, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4105836583959272, guid: cd5fc23babe0a1a4ca2239f10347668b, type: 3}
       propertyPath: m_LocalPosition.x
